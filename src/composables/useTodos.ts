@@ -56,7 +56,7 @@ export function useTodos() {
     }
   }
 
-  const deleteTodo = async (id: number) => {
+  const deleteTodo = async (id: string) => {
     try {
       await db.todos.delete(id)
       error.value = null

@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dexie": "^4.0.10",
+    "dexie-cloud-addon": "^4.0.8",
     "lucide-vue-next": "^0.469.0",
     "pinia": "^2.2.4",
     "radix-vue": "^1.9.11",

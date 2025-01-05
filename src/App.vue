@@ -1,5 +1,11 @@
+<script setup lang="ts">
+import AuthGuard from '@/components/AuthGuard.vue'
+</script>
+
 <template>
-  <div class="min-h-screen bg-background text-foreground">
-    <RouterView />
-  </div>
+  <AuthGuard>
+    <div class="min-h-screen bg-background text-foreground">
+      <RouterView />
+    </div>
+  </AuthGuard>
 </template>
