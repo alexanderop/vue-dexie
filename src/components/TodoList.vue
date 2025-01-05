@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useTodos } from '@/composables/useTodos'
+import { Icon } from '@iconify/vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
@@ -28,91 +29,118 @@ const {
 </script>
 
 <template>
-  <div class="container mx-auto p-4 max-w-md">
-    <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 text-purple-400">
-      Todo App
-    </h1>
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 backdrop-blur-lg bg-background/75 border-b border-border/40">
+      <div class="px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <Icon
+            icon="lucide:list-todo"
+            class="w-6 h-6 text-purple-400"
+          />
+          <h1 class="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            My Tasks
+          </h1>
+        </div>
+      </div>
+    </header>
 
     <!-- Add Todo Form -->
-    <Form
-      :validation-schema="formSchema"
-      class="mb-6"
-      @submit="addTodo"
-    >
-      <div class="flex gap-2">
-        <FormField v-slot="{ componentField }" name="title">
-          <FormItem class="flex-1">
-            <FormControl>
-              <Input
-                v-model="newTodoTitle"
-                v-bind="componentField"
-                type="text"
-                placeholder="Add new todo..."
-                class="bg-secondary"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <Button type="submit" variant="secondary" class="bg-purple-600 hover:bg-purple-700">
-          Add
-        </Button>
-      </div>
-    </Form>
+    <div class="px-4 py-3 border-b border-border/40">
+      <Form
+        :validation-schema="formSchema"
+        @submit="addTodo"
+      >
+        <div class="flex gap-2">
+          <FormField v-slot="{ componentField }" name="title">
+            <FormItem class="flex-1">
+              <FormControl>
+                <div class="relative">
+                  <Icon
+                    icon="lucide:plus-circle"
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground/50"
+                  />
+                  <Input
+                    v-model="newTodoTitle"
+                    v-bind="componentField"
+                    type="text"
+                    placeholder="Add a new task..."
+                    class="bg-secondary/50 border-0 rounded-full pl-10 placeholder:text-muted-foreground/50"
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <Button
+            type="submit"
+            variant="secondary"
+            class="rounded-full px-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 transition-opacity"
+          >
+            <Icon icon="lucide:plus" class="w-5 h-5 mr-1" />
+            Add
+          </Button>
+        </div>
+      </Form>
+    </div>
 
     <!-- Todo Lists -->
-    <div class="space-y-4">
-      <section>
-        <h2 class="scroll-m-20 border-b border-purple-800/40 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-purple-400">
-          Pending ({{ pendingTodos.length }})
+    <div class="flex-1 px-4 divide-y divide-border/40">
+      <!-- Pending Todos -->
+      <section class="py-4">
+        <h2 class="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+          <Icon icon="lucide:circle-dot" class="w-4 h-4" />
+          Tasks ({{ pendingTodos.length }})
         </h2>
-        <ul class="space-y-2 mt-4">
+        <ul class="space-y-3">
           <li
             v-for="todo in pendingTodos"
             :key="todo.id"
-            class="flex items-center gap-4 p-4 rounded-lg border border-purple-800/40 bg-secondary/50 text-foreground shadow-sm"
+            class="group flex items-center gap-3 p-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors"
           >
             <Checkbox
               :checked="todo.completed"
-              class="border-purple-600 data-[state=checked]:bg-purple-600"
+              class="border-2"
               @update:checked="() => toggleTodo(todo)"
             />
             <span class="flex-1">{{ todo.title }}</span>
             <Button
               variant="ghost"
-              size="sm"
-              class="hover:bg-destructive/90 hover:text-destructive-foreground"
-              @click="deleteTodo(todo.id!)"
+              size="icon"
+              class="text-muted-foreground/50 hover:text-destructive transition-colors"
+              @click="() => deleteTodo(todo.id!)"
             >
-              Delete
+              <Icon icon="lucide:trash-2" class="w-4 h-4" />
             </Button>
           </li>
         </ul>
       </section>
 
-      <section>
-        <h2 class="scroll-m-20 border-b border-purple-800/40 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-purple-400">
+      <!-- Completed Todos -->
+      <section class="py-4">
+        <h2 class="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+          <Icon icon="lucide:check-circle" class="w-4 h-4" />
           Completed ({{ completedTodos.length }})
         </h2>
-        <ul class="space-y-2 mt-4">
+        <ul class="space-y-3">
           <li
             v-for="todo in completedTodos"
             :key="todo.id"
-            class="flex items-center gap-4 p-4 rounded-lg border border-purple-800/40 bg-secondary/30 text-muted-foreground shadow-sm"
+            class="group flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/30 transition-colors"
           >
             <Checkbox
               :checked="todo.completed"
-              class="border-purple-600 data-[state=checked]:bg-purple-600"
+              class="border-2"
               @update:checked="() => toggleTodo(todo)"
             />
-            <span class="flex-1 line-through">{{ todo.title }}</span>
+            <span class="flex-1 line-through text-muted-foreground">{{ todo.title }}</span>
             <Button
               variant="ghost"
-              size="sm"
-              class="hover:bg-destructive/90 hover:text-destructive-foreground"
-              @click="deleteTodo(todo.id!)"
+              size="icon"
+              class="text-muted-foreground/50 hover:text-destructive transition-colors"
+              @click="() => deleteTodo(todo.id!)"
             >
-              Delete
+              <Icon icon="lucide:trash-2" class="w-4 h-4" />
             </Button>
           </li>
         </ul>

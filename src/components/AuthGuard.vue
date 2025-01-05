@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { currentUser, login, logout } from '@/db/todo'
+import { Icon } from '@iconify/vue'
 import { useObservable } from '@vueuse/rxjs'
 import { computed, ref } from 'vue'
 
@@ -69,16 +70,19 @@ async function handleLogin() {
     </Card>
   </div>
   <template v-else>
-    <div class="flex justify-end p-4 bg-card border-b">
-      <div class="flex items-center gap-4">
-        <span class="text-sm text-card-foreground">
+    <div class="sticky top-0 z-20 bg-card border-b">
+      <div class="flex items-center justify-between px-4 py-3">
+        <span class="text-sm text-card-foreground flex items-center gap-2">
+          <Icon icon="lucide:user" class="w-4 h-4" />
           {{ user?.email }}
         </span>
         <Button
           variant="ghost"
           size="sm"
+          class="flex items-center gap-2 text-muted-foreground hover:text-foreground"
           @click="logout"
         >
+          <Icon icon="lucide:log-out" class="w-4 h-4" />
           Sign out
         </Button>
       </div>
