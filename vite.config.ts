@@ -18,6 +18,10 @@ export default defineConfig(({ command }) => ({
         short_name: 'Vue PWA',
         description: 'A Vue 3 PWA Starter',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        orientation: 'portrait',
         icons: [
           {
             src: 'pwa-64x64.png',
