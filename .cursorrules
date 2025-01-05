@@ -1,0 +1,171 @@
+# Vue.js & TypeScript Style Guide (cursor.rules)
+
+This style guide provides rules and patterns for modern Vue.js development combining Vue 3.5, TypeScript, and best practices for maintainable codebases.
+
+## Core Technologies
+- Vue 3.5 with Composition API
+- TypeScript 5.6 
+- Vite 5
+- Pinia
+- Shadcn-Vue
+- TailwindCSS
+- Vitest & Playwright
+
+## TypeScript Rules
+
+1. Embrace const assertions for type inference
+2. Use Readonly and ReadonlyArray for data immutability
+3. Make object properties required by default
+4. Leverage discriminated unions
+5. Avoid type assertions
+6. Write pure, stateless functions
+7. Keep naming conventions consistent
+8. Use named exports over default
+9. Group code by feature
+
+## Error Handling
+
+```typescript
+type Success<T> = { kind: "success"; value: T }
+type Failure<E> = { kind: "failure"; error: E }
+type Result<T, E> = Success<T> | Failure<E>
+
+// Example usage
+function divide(a: number, b: number): Result<number, string> {
+  if (b === 0) {
+    return { kind: "failure", error: "Cannot divide by zero" }
+  }
+  return { kind: "success", value: a / b }
+}
+```
+
+## Vue Component Structure
+
+```vue
+<script setup lang="ts">
+// 1. Type imports
+// 2. Component imports
+// 3. Composable imports
+// 4. Interface/type definitions
+// 5. Props/emits
+// 6. Component logic
+// 7. Computed properties
+// 8. Watchers
+</script>
+
+<template>
+<!-- 1. Root container with semantic class names -->
+<!-- 2. Layout components -->
+<!-- 3. UI components -->
+<!-- 4. Interactive elements -->
+</template>
+```
+
+## Vue Features Usage
+
+### Props
+```typescript
+const { 
+  count = 0, 
+  message = 'hello' 
+} = defineProps<{
+  count?: number
+  message?: string
+}>()
+```
+
+### Template Refs
+```typescript
+import { useTemplateRef } from 'vue'
+const inputRef = useTemplateRef('input')
+```
+
+### State Management
+```typescript
+const counter = {
+  count: ref(0),
+  increment() {
+    this.count.value += 1
+  },
+  decrement() {
+    this.count.value -= 1
+  }
+}
+```
+
+## Composable Rules
+
+1. File Structure:
+   - Place in `src/composables/`
+   - Use `use` prefix: `useCounter.ts`
+   - Give descriptive names
+
+2. Anatomy:
+   - Primary State (main reactive state)
+   - Supportive State (loading, errors)
+   - Methods (state updates)
+   - Follow consistent ordering:
+     * Initializing code
+     * Refs
+     * Computed
+     * Methods
+     * Lifecycle
+     * Watch
+
+3. Parameters:
+   ```typescript
+   // Use object for 4+ params
+   useUserData({ 
+     id: 1, 
+     fetchOnMount: true, 
+     token: "abc", 
+     locale: "en" 
+   })
+   ```
+
+4. Error Handling:
+   ```typescript
+   const error = ref(null)
+   try {
+     // Logic
+   } catch (err) {
+     error.value = err
+   }
+   return { error }
+   ```
+
+5. Separation of Concerns:
+   - Keep UI logic in components
+   - Business logic in composables
+   - Single responsibility principle
+
+6. Functional Pattern:
+   ```typescript
+   // Functional core
+   const calculate = (a, b) => a + b
+
+   // Imperative shell
+   export function useCalculator() {
+     const result = ref(0)
+     const add = (a, b) => {
+       result.value = calculate(a, b)
+     }
+     return { result, add }
+   }
+   ```
+
+## Styling Rules
+
+1. Use semantic tokens over raw colors
+2. Use HSL variables for custom colors
+3. Follow container > section > component hierarchy
+4. Use Tailwind's spacing scale
+5. Maintain dark mode compatibility
+
+## Testing Requirements
+
+1. Unit tests with Vitest
+2. E2E tests with Playwright
+3. Test composables in isolation
+4. Mock API calls and side effects
+5. Test error states explicitly

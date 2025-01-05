@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgb(52,63,96);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(33,39,55);stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="256" cy="256" r="250" fill="url(#bgGradient)" />
+  
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="rgb(171,75,153)" stroke-width="16"/>
+  
+  <!-- Inner circle -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="rgb(138,51,123)" stroke-width="8"/>
+  
+  <!-- Clock hands -->
+  <line x1="256" y1="256" x2="256" y2="100" stroke="rgb(234,237,243)" stroke-width="12" stroke-linecap="round"/>
+  <line x1="256" y1="256" x2="350" y2="256" stroke="rgb(255,107,237)" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Clock center -->
+  <circle cx="256" cy="256" r="15" fill="rgb(255,107,237)"/>
+  
+  <!-- Hour marks -->
+  <line x1="256" y1="70" x2="256" y2="90" stroke="rgb(234,237,243)" stroke-width="8" stroke-linecap="round"/>
+  <line x1="442" y1="256" x2="422" y2="256" stroke="rgb(234,237,243)" stroke-width="8" stroke-linecap="round"/>
+  <line x1="256" y1="442" x2="256" y2="422" stroke="rgb(234,237,243)" stroke-width="8" stroke-linecap="round"/>
+  <line x1="70" y1="256" x2="90" y2="256" stroke="rgb(234,237,243)" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- PWA BABY! Text -->
+  <text x="256" y="340" font-family="Arial Black, Arial Bold, Gadget, sans-serif" font-size="54" font-weight="bold" fill="rgb(255,107,237)" text-anchor="middle">PWA BABY!</text>
+</svg>
