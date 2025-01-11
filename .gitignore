@@ -32,3 +32,7 @@ coverage
 
 test-results/
 playwright-report/
+
+# Dexie Cloud
+dexie-cloud.json
+dexie-cloud.key
