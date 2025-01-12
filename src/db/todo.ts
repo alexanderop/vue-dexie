@@ -29,7 +29,11 @@ export class TodoDB extends Dexie {
 
 export const db = new TodoDB()
 
-db.configureSync('https://zy02f1t99.dexie.cloud').catch((err) => {
+if (!import.meta.env.VITE_DEXIE_CLOUD_URL) {
+  throw new Error('VITE_DEXIE_CLOUD_URL environment variable is not defined')
+}
+
+db.configureSync(import.meta.env.VITE_DEXIE_CLOUD_URL).catch((err) => {
   console.error('Failed to configure cloud sync:', err)
   if (err.name === 'NetworkError') {
     console.error('Network error - please check your connection')
